@@ -5,9 +5,8 @@ import {IPosition} from "./IPosition";
 export class Rectangle {
     private readonly ctx: CanvasRenderingContext2D;
     private position: IPosition;
-
-    private speedY: number;
-    private speedX: number;
+    private speed: number;
+    private alpha: number;
     private readonly width: number;
     private readonly height: number;
     color: Hsl | Rgb;
@@ -20,8 +19,9 @@ export class Rectangle {
         this.width = width;
         this.height = height;
         this.color = color;
-        this.speedX = 10;
-        this.speedY = 2;
+        this.speed = 3;
+        // [0 - 2*Math.PI]
+        this.alpha = Math.random() * Math.PI;
     }
 
     draw() {
@@ -31,17 +31,19 @@ export class Rectangle {
     }
 
     clear() {
-        this.ctx.clearRect(this.position.x, this.position.y, this.width, this.height);
+        //this.ctx.clearRect(this.position.x, this.position.y, this.width, this.height);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     update() {
-        this.position.y += this.speedY;
-        this.position.x += this.speedX;
-        if (this.position.x === this.canvas.width - this.width || this.position.x === 0) {
-            this.speedX = -this.speedX;
+        if ((this.position.x + this.width >= this.canvas.width ||
+            this.position.x <= 0) || (
+            this.position.y + this.height >= this.canvas.height ||
+            this.position.y <= 0)) {
+                this.speed = -this.speed;
         }
-        if (this.position.y === this.canvas.height - this.height || this.position.y === 0) {
-            this.speedY = -this.speedY;
-        }
+
+        this.position.x += this.speed * Math.cos(this.alpha);
+        this.position.y += this.speed * Math.sin(this.alpha);
     }
 }
