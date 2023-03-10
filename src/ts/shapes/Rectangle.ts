@@ -5,6 +5,8 @@ import {IPosition} from "./IPosition";
 export class Rectangle {
     private readonly ctx: CanvasRenderingContext2D;
     private position: IPosition;
+
+    private speed: number;
     private readonly width: number;
     private readonly height: number;
     color: Hsl | Rgb;
@@ -16,7 +18,8 @@ export class Rectangle {
         this.position = position;
         this.width = width;
         this.height = height;
-        this.color = color
+        this.color = color;
+        this.speed = 2;
     }
 
     draw() {
@@ -30,7 +33,10 @@ export class Rectangle {
     }
 
     update() {
-
-        this.position.x += 1;
+        this.position.x += this.speed;
+        this.position.y += this.speed;
+        if (this.position.x === this.canvas.width - this.width || this.position.x === 0) {
+            this.speed = -this.speed;
+        }
     }
 }
