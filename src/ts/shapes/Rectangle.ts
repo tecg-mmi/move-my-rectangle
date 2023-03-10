@@ -6,7 +6,8 @@ export class Rectangle {
     private readonly ctx: CanvasRenderingContext2D;
     private position: IPosition;
 
-    private speed: number;
+    private speedY: number;
+    private speedX: number;
     private readonly width: number;
     private readonly height: number;
     color: Hsl | Rgb;
@@ -19,7 +20,8 @@ export class Rectangle {
         this.width = width;
         this.height = height;
         this.color = color;
-        this.speed = 2;
+        this.speedX = 10;
+        this.speedY = 2;
     }
 
     draw() {
@@ -33,10 +35,13 @@ export class Rectangle {
     }
 
     update() {
-        this.position.x += this.speed;
-        this.position.y += this.speed;
+        this.position.y += this.speedY;
+        this.position.x += this.speedX;
         if (this.position.x === this.canvas.width - this.width || this.position.x === 0) {
-            this.speed = -this.speed;
+            this.speedX = -this.speedX;
+        }
+        if (this.position.y === this.canvas.height - this.height || this.position.y === 0) {
+            this.speedY = -this.speedY;
         }
     }
 }
