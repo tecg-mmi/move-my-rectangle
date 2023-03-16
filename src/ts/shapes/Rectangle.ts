@@ -5,7 +5,7 @@ import {IPosition} from "./IPosition";
 export class Rectangle {
     private readonly ctx: CanvasRenderingContext2D;
     private position: IPosition;
-    private speed: number;
+    private readonly speed: number;
     private alpha: number;
     private readonly width: number;
     private readonly height: number;
