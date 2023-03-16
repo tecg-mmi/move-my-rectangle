@@ -18,7 +18,7 @@
 4. Maintenant, essayer de dessiner un seul rectangle, par exemple au centre. Voyez comment le faire pointe vers la souris. Pour cela, vous aurez besoin de calculer l'angle de l'hypoténuse à partir des axes adjacents à celle-ci, formé par les coordonnées du rectangle et de la souris. Pour obtenir cet angle, il faut calculer l’arc tangent. Je vous encourage à regarder cette vidéo pour comprendre les concepts que j'aborde.
 5. Maintenant faite en sorte que ce rectangle se déplace vers la souris.
 
-Vous pouvez voir une version [ici](https://hepl-mmi.github.io/move-my-rectangle).
+Vous pouvez voir une version [ici](https://tecg-mmi.github.io/move-my-rectangle).
 
 ## Bonus 👏
 
