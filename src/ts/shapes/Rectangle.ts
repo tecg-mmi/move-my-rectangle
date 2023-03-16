@@ -1,12 +1,12 @@
 import {Hsl} from "../Colors/Hsl";
 import {Rgb} from "../Colors/Rgb";
-import {IPosition} from "./IPosition";
+import {IPosition} from "../Types/IPosition";
 
 export class Rectangle {
     private readonly ctx: CanvasRenderingContext2D;
     private position: IPosition;
     private readonly speed: number;
-    private alpha: number;
+    public direction: number;
     private readonly width: number;
     private readonly height: number;
     color: Hsl | Rgb;
@@ -20,14 +20,13 @@ export class Rectangle {
         this.height = height;
         this.color = color;
         this.speed = 3;
-        // [0 - 2*Math.PI]
-        this.alpha = Math.random() * Math.PI * 2;
+        this.direction = Math.random() * Math.PI * 2;
     }
 
     draw() {
         this.ctx.save(); // sauvegarde l'état actuel du contexte
         this.ctx.translate(this.position.x + this.width / 2, this.position.y + this.height / 2); // déplace l'origine du système de coordonnées au centre du rectangle
-        this.ctx.rotate(this.alpha); // applique la transformation de rotation
+        this.ctx.rotate(this.direction); // applique la transformation de rotation
         this.ctx.fillStyle = `${this.color}`;
         this.ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height); // dessine le rectangle centré sur l'origine
         this.ctx.restore(); // restaure l'état précédent du contexte
@@ -40,15 +39,19 @@ export class Rectangle {
     }
 
     update() {
-        this.position.x += this.speed * Math.cos(this.alpha);
-        this.position.y += this.speed * Math.sin(this.alpha);
+        this.position.x += this.speed * Math.cos(this.direction);
+        this.position.y += this.speed * Math.sin(this.direction);
 
         if (this.position.x <= 0 || this.position.x + this.width >= this.canvas.width) {
-            this.alpha = Math.PI - this.alpha;
+            this.direction = Math.PI - this.direction;
         }
 
         if (this.position.y <= 0 || this.position.y + this.height >= this.canvas.height) {
-            this.alpha = -this.alpha;
+            this.direction = -this.direction;
         }
+    }
+
+    setDirectionByMousePosition(position: IPosition) {
+        this.direction = Math.atan2(position.y - this.position.y, position.x - this.position.x);
     }
 }

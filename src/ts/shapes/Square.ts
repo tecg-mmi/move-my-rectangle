@@ -1,6 +1,6 @@
 import {Hsl} from "../Colors/Hsl";
 import {Rgb} from "../Colors/Rgb";
-import {IPosition} from "./IPosition";
+import {IPosition} from "../Types/IPosition";
 
 export class Square {
     private readonly ctx: CanvasRenderingContext2D;

@@ -1,19 +1,27 @@
 import {Rectangle} from "./shapes/Rectangle";
-import {Hsl} from "./Colors/Hsl";
+import {Rgb} from "./Colors/Rgb";
 
 // @ts-ignore
 const canvas: HTMLCanvasElement = document.getElementById('my-canvas');
-const myRectangle = new Rectangle(canvas, new Hsl(120, 80, 40), {x: 40, y: 100}, 20, 50);
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+const myRectangle = new Rectangle(canvas, new Rgb(230, 126, 34), {x: 40, y: 100}, 20, 50);
 
 function main(): void {
     animate();
 }
 
 main();
-
-window.addEventListener('mousemove', (e) => {
-
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 });
+
+canvas.addEventListener('mousemove', (event: MouseEvent) => {
+    myRectangle.setDirectionByMousePosition({x: event.x, y: event.y});
+});
+
+
 function animate() {
     myRectangle.clear();
     myRectangle.update();
