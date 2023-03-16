@@ -1,4 +1,4 @@
-export interface IDimension {
+export interface dimension {
     width:number;
     height:number;
 }

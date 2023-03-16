@@ -1,47 +1,37 @@
 import {Hsl} from "../Colors/Hsl";
 import {Rgb} from "../Colors/Rgb";
-import {IPosition} from "../Types/IPosition";
+import {position} from "../Types/position";
 import {Canvas} from "../Canvas";
+import {Shape} from "./Shape";
+import {Animatable} from "../Types/Animatable";
 
-export class Rectangle {
-    private readonly ctx: CanvasRenderingContext2D;
-    private position: IPosition;
-    private readonly speed: number;
-    public direction: number;
-    private readonly width: number;
-    private readonly height: number;
-    color: Hsl | Rgb;
-    private canvas: Canvas;
+export class Rectangle extends Shape implements Animatable {
+    protected readonly width: number;
+    protected readonly height: number;
 
-    constructor(canvas: Canvas, color: Hsl | Rgb, position: IPosition, width: number, height: number) {
-        this.canvas = canvas;
-        this.ctx = this.canvas.ctx;
-        this.position = position;
+    constructor(canvas: Canvas, color: Hsl | Rgb, width: number, height: number, position: position, speed?: number, direction?: number) {
+        super(canvas, position, speed, direction, color);
         this.width = width;
         this.height = height;
-        this.color = color;
-        this.speed = 3;
-        this.direction = Math.random() * Math.PI * 2;
     }
 
     draw() {
         this.ctx.save(); // sauvegarde l'état actuel du contexte
-        this.ctx.translate(this.position.x + this.width / 2, this.position.y + this.height / 2); // déplace l'origine du système de coordonnées au centre du rectangle
+        this.ctx.translate(Math.trunc(this.position.x + this.width / 2), Math.trunc(this.position.y + this.height / 2)); // déplace l'origine du système de coordonnées au centre du rectangle
         this.ctx.rotate(this.direction); // applique la transformation de rotation
         this.ctx.fillStyle = `${this.color}`;
-        this.ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height); // dessine le rectangle centré sur l'origine
+        this.ctx.fillRect(-Math.trunc(this.width / 2), -Math.trunc(this.height / 2), this.width, this.height); // dessine le rectangle centré sur l'origine
         this.ctx.restore(); // restaure l'état précédent du contexte
         return this;
     }
 
     clear() {
-        //this.ctx.clearRect(this.position.x, this.position.y, this.width, this.height);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     update() {
-        this.position.x += this.speed * Math.cos(this.direction);
-        this.position.y += this.speed * Math.sin(this.direction);
+        this.position.x += Math.floor(this.speed * Math.cos(this.direction));
+        this.position.y += Math.floor(this.speed * Math.sin(this.direction));
 
         if (this.position.x <= 0 || this.position.x + this.width >= this.canvas.width) {
             this.direction = Math.PI - this.direction;
@@ -52,7 +42,7 @@ export class Rectangle {
         }
     }
 
-    setDirectionByMousePosition(position: IPosition) {
+    setDirectionByMousePosition(position: position) {
         this.direction = Math.atan2(position.y - this.position.y, position.x - this.position.x);
     }
 }

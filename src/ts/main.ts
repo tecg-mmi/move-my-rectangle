@@ -1,27 +1,19 @@
 import {Rectangle} from "./shapes/Rectangle";
 import {Rgb} from "./Colors/Rgb";
 import {Canvas} from "./Canvas";
-
-// @ts-ignore
-const canvas: Canvas = new Canvas(document.getElementById('my-canvas'));
-const FlatColors = require("flat-colors")
-const colors = FlatColors(Math.random() * 250, Math.random() * 250, Math.random() * 250);
-const myRectangle = new Rectangle(canvas, new Rgb(colors[0], colors[1], colors[2]), {x: 40, y: 100}, 20, 50);
+import {Animate} from "./Animate";
 
 function main(): void {
-    animate();
+    const canvas: Canvas = new Canvas(document.getElementById('my-canvas') as HTMLCanvasElement);
+    const FlatColors = require("flat-colors");
+    const colors = FlatColors(Math.random() * 250, Math.random() * 250, Math.random() * 250);
+    const animation = new Animate();
+    const myRectangle = new Rectangle(canvas, new Rgb(colors[0], colors[1], colors[2]), 10, 50, {x: 40, y: 100}, 3);
+    animation.registerForAnimation(myRectangle);
+    animation.start();
+    window.addEventListener('mousemove', (event: MouseEvent) => {
+        myRectangle.setDirectionByMousePosition({x: event.x, y: event.y});
+    });
 }
 
 main();
-
-window.addEventListener('mousemove', (event: MouseEvent) => {
-    myRectangle.setDirectionByMousePosition({x: event.x, y: event.y});
-});
-
-
-function animate() {
-    myRectangle.clear();
-    myRectangle.update();
-    myRectangle.draw();
-    requestAnimationFrame(animate);
-}
