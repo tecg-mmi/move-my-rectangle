@@ -11,6 +11,9 @@ function main(): void {
 
 main();
 
+window.addEventListener('mousemove', (e) => {
+
+});
 function animate() {
     myRectangle.clear();
     myRectangle.update();
