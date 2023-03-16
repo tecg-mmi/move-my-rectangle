@@ -1,6 +1,7 @@
 import {Hsl} from "../Colors/Hsl";
 import {Rgb} from "../Colors/Rgb";
 import {IPosition} from "../Types/IPosition";
+import {Canvas} from "../Canvas";
 
 export class Rectangle {
     private readonly ctx: CanvasRenderingContext2D;
@@ -10,11 +11,11 @@ export class Rectangle {
     private readonly width: number;
     private readonly height: number;
     color: Hsl | Rgb;
-    private canvas: HTMLCanvasElement;
+    private canvas: Canvas;
 
-    constructor(canvas: HTMLCanvasElement, color: Hsl | Rgb, position: IPosition, width: number, height: number) {
+    constructor(canvas: Canvas, color: Hsl | Rgb, position: IPosition, width: number, height: number) {
         this.canvas = canvas;
-        this.ctx = this.canvas.getContext('2d');
+        this.ctx = this.canvas.ctx;
         this.position = position;
         this.width = width;
         this.height = height;
